@@ -13,11 +13,9 @@ export class UserRoute {
         app.route('/users')
             .get(this.userController.searchUser);
         
-        app.route('/v1/users/create')
-            .post(this.userController.createUser);
-        app.route('/v1/users/update')
-            .put(this.userController.updateUser);
-        app.route('/v1/users/delete')
+        app.route('/v2/users/1')
+            .post(this.userController.createUser)
+            .put(this.userController.updateUser)
             .delete(this.userController.deleteUser);
     }
 }

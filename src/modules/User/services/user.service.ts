@@ -32,6 +32,28 @@ export class UserService extends BaseRepository<IUser> {
         }
     }
 
+    async updateUser(data: any, filter: any): Promise<any> {
+        try {
+            const result = User.updateOne(filter, data);
+            return {
+                code : result
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteUser(filter: any): Promise<any> {
+        try {
+            const result = User.deleteOne(filter);
+            return {
+                code : result
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async searchUser(req: any): Promise<any> {
         
         User.schema.index({name : 'text'});
