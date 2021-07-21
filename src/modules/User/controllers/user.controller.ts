@@ -1,13 +1,14 @@
 import { UserService } from "../services/user.service";
 import { Request, Response } from "express"
 import { Schema, model } from "mongoose";
-import User from "../../../common/entity/user.entity";
+import User, { IUser } from "../../../common/entity/user.entity";
+import { createIUser, updateIUser, deleteIUser } from "../models/user.model";
 import { serializeGetUser } from "../serializers/user.serializer";
 
 export class UserController {
     public userService: UserService = new UserService(User);
     
-    async login(req: Request, res: Response) {
+    public login = async (req: Request, res: Response) => {
         const username = req.body.username;
         const token = this.userService.createToken({name: username});
         res.json(token);
@@ -25,7 +26,7 @@ export class UserController {
 
     public createUser = async (req: Request, res: Response) => {
         try {
-            let userData = {
+            let userData: createIUser = {
                 name: req.body.name,
                 age: req.body.age,
                 DOB: req.body.DOB,
@@ -35,7 +36,7 @@ export class UserController {
                 password: req.body.password,
                 password_confirm: req.body.password_confirm
             }
-            const result = await this.userService.create(userData);
+            const result = await this.userService.createUser(userData);
             res.json(result);
         }
         catch (err) {

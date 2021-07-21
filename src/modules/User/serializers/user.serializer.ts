@@ -1,4 +1,4 @@
-import {createUser} from "../models/user.model";
+import {createIUser} from "../models/user.model";
 
 export interface IUserGet {
     name: String,
@@ -6,7 +6,7 @@ export interface IUserGet {
     password: String
 }
 
-export function serializeGetUser(model: createUser): IUserGet {
+export function serializeGetUser(model: createIUser): IUserGet {
     return {
         name: model.name,
         username: model.username,

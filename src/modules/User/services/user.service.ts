@@ -18,4 +18,16 @@ export class UserService extends BaseRepository<IUser> {
         const data = await User.find();
         return {data: data}
     }
+
+    async createUser(data: any): Promise<any> {
+        try {
+            const newData = new User(data);
+            await newData.save();
+            return {
+                data: newData
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
 }
