@@ -26,7 +26,7 @@ const userSchema = new Schema<IUser>({
     password: { type: String, required: true },
 },{
     timestamps: true,
-    password_confirm: { type: String, required: true },
+
     
 });
 
