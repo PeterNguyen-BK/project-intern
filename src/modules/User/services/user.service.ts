@@ -1,5 +1,5 @@
 import User, { IUser } from "../../../common/entity/user.entity";
-import { Model } from "mongoose";
+import { Model, mongo } from "mongoose";
 import { BaseRepository } from "../../../common/repository/base.repository";
 import * as jwt from "jsonwebtoken";
 

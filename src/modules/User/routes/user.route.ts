@@ -16,7 +16,7 @@ export class UserRoute {
         app.route('/users')
             .get(ValidateQuery(searchUserSchema),this.userController.searchUser);
         
-        app.route('/v2/users/1')
+        app.route('/v2/users/')
             .post(this.userController.createUser)
             .put(this.userController.updateUser)
             .delete(this.userController.deleteUser);
