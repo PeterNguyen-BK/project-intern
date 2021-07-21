@@ -8,7 +8,16 @@ export class UserRoute {
 
     public routes = (app: Application) => {
         app.route('/v1/users')
-            .get(this.userController.getAllUsers)
-            .post(this.userController.createUser)
+            .get(this.userController.getAllUsers);
+
+        app.route('/users')
+            .get(this.userController.searchUser);
+        
+        app.route('/v1/users/create')
+            .put(this.userController.createUser);
+        app.route('/v1/users/update')
+            .put(this.userController.updateUser);
+        app.route('/v1/users/delete')
+            .delete(this.userController.deleteUser);
     }
 }

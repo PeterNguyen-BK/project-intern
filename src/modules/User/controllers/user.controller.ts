@@ -1,5 +1,6 @@
 import { UserService } from "../services/user.service";
-import { Request, Response } from "express"
+import { Request, Response } from "express";
+// import { IUser } from "../models/user.model";
 import { Schema, model } from "mongoose";
 import User, { IUser } from "../../../common/entity/user.entity";
 import { createIUser, updateIUser, deleteIUser } from "../models/user.model";
@@ -16,8 +17,18 @@ export class UserController {
 
     public getAllUsers = async (req: Request, res: Response) => {
         try {
-            const result = await this.userService.getUsers();
-            res.json(result.data.map((x: any) => serializeGetUser(x)));
+            const data = await this.userService.getUsers();
+            res.json({Users: data});
+        }
+        catch(err) {
+            throw err;
+        }
+    }
+
+    public searchUser = async (req: Request, res: Response) => {
+        try {
+            const data = await this.userService.searchUser(req);
+            res.json({Users: data});
         }
         catch(err) {
             throw err;
@@ -42,5 +53,37 @@ export class UserController {
         catch (err) {
             throw err;
         };
+    }
+
+    public updateUser = async (req: Request, res: Response) => {
+        try {
+            let filter = req.body.id;
+            let userData = {
+                name: req.body.name,
+                age: req.body.age,
+                DOB: req.body.DOB,
+                gender: req.body.gender,
+                location: req.body.location,
+                username: req.body.username,
+                password: req.body.password,
+                password_confirm: req.body.password_confirm
+            }
+            const result = await this.userService.update(userData, filter);
+            res.json(result);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public deleteUser = async (req: Request, res: Response) => {
+        try {
+            let userData = {
+                id: req.body.id
+            }
+            const result = await this.userService.delete(userData);
+            res.json(result);
+        } catch (error) {
+            
+        }
     }
 }

@@ -28,3 +28,12 @@ export const updateUserSchema = Joi.object({
 export const deleteUserSchema = Joi.object({
     id: Joi.number().required()
 })
+
+export const searchUserSchema = Joi.object({
+   
+    name: Joi.string().required(),
+    location: Joi.string(),
+    fieldSort: Joi.string().required(),
+    criteriaSort: Joi.string().min(3),
+    page: Joi.number()
+})
