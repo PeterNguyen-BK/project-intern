@@ -7,7 +7,7 @@ export class UserRoute {
 
     public routes = (app: Application) => {
         app.route('/v1/users')
-            .get(authenticateToken, this.userController.getAllUsers);
+            .get(this.userController.getAllUsers);
         
     }
 }

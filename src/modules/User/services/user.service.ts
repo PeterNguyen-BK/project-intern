@@ -15,8 +15,7 @@ export class UserService extends BaseRepository<IUser> {
     }
 
     async getUsers(): Promise<any> {
-        console.log("hihi");
         const data = await User.find();
-        return {data}
+        return {data: data}
     }
 }

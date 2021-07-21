@@ -5,9 +5,6 @@ export interface createUser {
     DOB: Date,
     username: string,
     password: string,
-    password_confirm: string,
-    create_at: Date,
-    update_at: Date,
     location: string
 }
 
