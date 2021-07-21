@@ -2,6 +2,7 @@ import { Schema, model, Document } from "mongoose";
 
 export interface IUser extends Document {
     id: Schema.Types.ObjectId,
+    idUser: Number,
     name: String,
     age: Number,
     DOB: String,
@@ -17,6 +18,7 @@ export interface IUser extends Document {
 
 const userSchema = new Schema<IUser>({
     id: {type: Schema.Types.ObjectId, require: true},
+    idUser: {type: Number, required: true},
     name: { type: String, required: true },
     age: { type: Number, required: true },
     DOB: { type: String, required: true },
