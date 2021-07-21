@@ -25,8 +25,10 @@ const userSchema = new Schema<IUser>({
     username: { type: String, required: true },
     password: { type: String, required: true },
     password_confirm: { type: String, required: true },
-    create_at: { type: Date, required: true },
-    update_at: { type: Date, required: true },
+    create_at: { type: Date },
+    update_at: { type: Date },
+},
+    { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } 
 });
 
 export default model<IUser>('User', userSchema);
