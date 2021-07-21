@@ -9,6 +9,5 @@ export class UserRoute {
     public routes = (app: Application) => {
         app.route('/v1/users')
             .get(this.userController.getAllUsers);
-        
     }
 }

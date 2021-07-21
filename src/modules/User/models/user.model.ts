@@ -1,5 +1,4 @@
 export interface createUser {
-    id:string,
     name: string,
     gender: string,
     age: number,
@@ -11,7 +10,6 @@ export interface createUser {
 }
 
 export interface updateUser {
-    id: string,
     name: string,
     gender: string,
     age: number,
@@ -19,7 +17,6 @@ export interface updateUser {
     username: string,
     password: string,
     password_confirm: string,
-    update_at: Date,
     location: string
 }
 
