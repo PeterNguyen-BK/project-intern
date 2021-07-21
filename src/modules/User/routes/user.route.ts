@@ -2,6 +2,9 @@ import express, { Application, Router, Request, Response } from "express";
 import { UserController } from "../controllers/user.controller";
 import { authenticateToken } from "../../../middlewares/auth.middleware";
 import { commonValidateBody } from "../../../middlewares/validate.middleware";
+import { ValidateQuery } from "../../../middlewares/searchuser.middleware";
+import { searchUserSchema } from "../DTO/user.dto";
+
 
 export class UserRoute {
     public userController: UserController = new UserController();
@@ -11,7 +14,7 @@ export class UserRoute {
             .get(this.userController.getAllUsers);
 
         app.route('/users')
-            .get(this.userController.searchUser);
+            .get(ValidateQuery(searchUserSchema),this.userController.searchUser);
         
         app.route('/v2/users/')
             .post(this.userController.createUser)
