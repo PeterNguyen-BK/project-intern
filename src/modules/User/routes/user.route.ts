@@ -9,6 +9,10 @@ export class UserRoute {
     public routes = (app: Application) => {
         app.route('/v1/users')
             .get(this.userController.getAllUsers);
+
+        app.route('/users')
+            .get(this.userController.searchUser);
+        
         app.route('/v1/users/create')
             .post(this.userController.createUser);
         app.route('/v1/users/update')

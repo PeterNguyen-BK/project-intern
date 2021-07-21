@@ -24,9 +24,10 @@ const userSchema = new Schema<IUser>({
     location: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },
+},{
+    timestamps: true,
     password_confirm: { type: String, required: true },
-    create_at: { type: Date, required: true },
-    update_at: { type: Date, required: true },
+    
 });
 
 export default model<IUser>('User', userSchema);

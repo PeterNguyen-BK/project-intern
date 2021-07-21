@@ -3,6 +3,7 @@ import { Model } from "mongoose";
 import { BaseRepository } from "../../../common/repository/base.repository";
 import * as jwt from "jsonwebtoken";
 
+
 export class UserService extends BaseRepository<IUser> {
     constructor(public readonly userRepository: Model<IUser>) {
         super(userRepository);
@@ -16,6 +17,28 @@ export class UserService extends BaseRepository<IUser> {
 
     async getUsers(): Promise<any> {
         const data = await User.find();
+        return {data: data}
+    }
+
+    async searchUser(req: any): Promise<any> {
+        
+        User.schema.index({name : 'text'});
+        const filter_query : object= {$or: [
+            {name: req.query.name},
+            {location: (req.query.location)? req.query.location: undefined},
+           ]
+        };
+     
+        let sort_query=[];
+        sort_query.push(req.query.fieldSort);
+        sort_query.push(req.query.criteriaSort);
+        
+        console.log(sort_query);
+        
+        let perPage=16, Page;
+        if (req.query.page) Page=Number(req.query.page); else Page=1;
+      
+        const data = await User.find(filter_query).sort([sort_query]).skip(perPage*(Page-1)).limit(perPage);
         return {data: data}
     }
 }
