@@ -1,6 +1,7 @@
 import express, { Application, Router, Request, Response } from "express";
 import { UserController } from "../controllers/user.controller";
 import { authenticateToken } from "../../../middlewares/auth.middleware";
+import { commonValidateBody } from "../../../middlewares/validate.middleware";
 
 export class UserRoute {
     public userController: UserController = new UserController();
@@ -12,5 +13,11 @@ export class UserRoute {
         app.route('/users')
             .get(this.userController.searchUser);
         
+        app.route('/v1/users/create')
+            .put(this.userController.createUser);
+        app.route('/v1/users/update')
+            .put(this.userController.updateUser);
+        app.route('/v1/users/delete')
+            .delete(this.userController.deleteUser);
     }
 }
