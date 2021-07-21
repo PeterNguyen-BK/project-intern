@@ -20,6 +20,40 @@ export class UserService extends BaseRepository<IUser> {
         return {data: data}
     }
 
+    async createUser(data: any): Promise<any> {
+        try {
+            const newData = new User(data);
+            await newData.save();
+            return {
+                data: newData
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateUser(data: any, filter: any): Promise<any> {
+        try {
+            const result = User.updateOne(filter, data);
+            return {
+                code : result
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteUser(filter: any): Promise<any> {
+        try {
+            const result = User.deleteOne(filter);
+            return {
+                code : result
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async searchUser(req: any): Promise<any> {
         
         User.schema.index({name : 'text'});
@@ -36,9 +70,10 @@ export class UserService extends BaseRepository<IUser> {
         console.log(sort_query);
         
         let perPage=16, Page;
-        if (req.query.page) Page=Number(req.query.page); else Page=1;
+        if (req.query.page) Page=Number(req.query.page); 
+        else Page=1;
       
         const data = await User.find(filter_query).sort([sort_query]).skip(perPage*(Page-1)).limit(perPage);
-        return {data: data}
+        return {data: data};
     }
 }
