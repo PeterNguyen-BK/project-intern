@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 // import { IUser } from "../models/user.model";
 import { Schema, model } from "mongoose";
 import User, { IUser } from "../../../common/entity/user.entity";
-import { createIUser, updateIUser, deleteIUser } from "../models/user.model";
+import { createIUser, IDIUser, updateIUser } from "../models/user.model";
 import { serializeGetUser } from "../serializers/user.serializer";
 
 export class UserController {
@@ -46,16 +46,7 @@ export class UserController {
 
     public createUser = async (req: Request, res: Response) => {
         try {
-            let userData: createIUser = {
-                name: req.body.name,
-                age: req.body.age,
-                DOB: req.body.DOB,
-                gender: req.body.gender,
-                location: req.body.location,
-                username: req.body.username,
-                password: req.body.password,
-                password_confirm: req.body.password_confirm
-            }
+            let userData: createIUser = req.body;
             const result = await this.userService.createUser(userData);
             res.json(result);
         }
@@ -66,8 +57,8 @@ export class UserController {
 
     public updateUser = async (req: Request, res: Response) => {
         try {
-            let filter = {idUser : req.params.id};
-            let userData = req.body;
+            let filter: IDIUser = {idUser: req.params.id};
+            let userData: updateIUser = req.body;
             const result = await this.userService.updateUser(userData, filter);
             res.json(result);
         } catch (error) {
@@ -77,7 +68,7 @@ export class UserController {
 
     public deleteUser = async (req: Request, res: Response) => {
         try {
-            let userData = {
+            let userData: IDIUser = {
                 idUser: req.params.id
             }
             const result = await this.userService.deleteUser(userData);

@@ -3,25 +3,25 @@ import { Schema } from "mongoose";
 export interface createIUser {
     name: string,
     gender: string,
-    age: Number,
-    DOB: String,
-    username: String,
-    password: String,
-    password_confirm: String,
-    location: String
-}
-
-export interface updateIUser {
-    name: string,
-    gender: string,
     age: number,
-    DOB: Date,
+    DOB: string,
     username: string,
     password: string,
     password_confirm: string,
     location: string
 }
 
-export interface deleteIUser {
-    id: string
+export interface updateIUser {
+    name: string,
+    gender: string,
+    age: number,
+    DOB: string,
+    username: string,
+    password: string,
+    password_confirm: string,
+    location: string
+}
+
+export interface IDIUser {
+    idUser: string
 }

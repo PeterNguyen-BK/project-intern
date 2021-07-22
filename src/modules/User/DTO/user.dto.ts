@@ -3,8 +3,9 @@ import Joi from 'joi';
 export const createUserSchema = Joi.object({
     name: Joi.string().required(),
     age: Joi.number().required(),
-    DOB: Joi.date().required(),
-    userName: Joi.string().required(),
+    DOB: Joi.string().required(),
+    gender: Joi.string().required(),
+    username: Joi.string().required(),
     password: Joi.string().required(),
     password_confirm: Joi.string().required(),
     location: Joi.string(),
@@ -13,7 +14,7 @@ export const createUserSchema = Joi.object({
 export const updateUserSchema = Joi.object({
     name: Joi.string(),
     age: Joi.number(),
-    DOB: Joi.date(),
+    DOB: Joi.string(),
     userName: Joi.string(),
     password: Joi.string(),
     password_confirm: Joi.string(),
