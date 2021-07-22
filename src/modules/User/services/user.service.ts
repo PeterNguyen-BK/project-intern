@@ -2,6 +2,7 @@ import User, { IUser } from "../../../common/entity/user.entity";
 import { Model, mongo } from "mongoose";
 import { BaseRepository } from "../../../common/repository/base.repository";
 import * as jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 
 export class UserService extends BaseRepository<IUser> {
@@ -69,8 +70,13 @@ export class UserService extends BaseRepository<IUser> {
 
     async createUser(data: any): Promise<any> {
         try {
+            const user = await User.findOne({ username: data.username }).exec();
+            if (user) throw new Error("Username has been already existed");
+            const saltRounds = 10;
+            const encryptPassword = await bcrypt.hash(data.password, saltRounds);
+            data.password = encryptPassword;
             const newData = new User(data);
-            let idUser = await this.createID();
+            const idUser = await this.createID();
             newData.idUser = idUser;
             await newData.save();
             return {

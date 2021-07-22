@@ -7,7 +7,6 @@ export interface createIUser {
     DOB: String,
     username: String,
     password: String,
-    password_confirm: String,
     location: String
 }
 
@@ -18,10 +17,14 @@ export interface updateIUser {
     DOB: Date,
     username: string,
     password: string,
-    password_confirm: string,
     location: string
 }
 
 export interface deleteIUser {
     id: string
+}
+
+export interface signupIUser {
+    username: String,
+    password: String
 }

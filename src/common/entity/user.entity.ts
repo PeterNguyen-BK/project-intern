@@ -10,7 +10,6 @@ export interface IUser extends Document {
     location: String,
     username: String,
     password: String,
-    password_confirm: String,
     created_at: Date,
     updated_at: Date,
     refresh_token: String
@@ -27,7 +26,6 @@ const userSchema = new Schema<IUser>({
     location: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },
-    password_confirm: { type: String, required: true },
     created_at: { type: Date },
     updated_at: { type: Date },
     refresh_token: { type: String, default: '' }

@@ -14,7 +14,7 @@ export class UserRoute {
             .get(authenticateToken, this.userController.getAllUsers)
             .post(this.userController.createUser);
 
-        app.route('/users')
+        app.route('/v1/users/search')
             .get(ValidateQuery(searchUserSchema),this.userController.searchUser);
         
         app.route('/v1/users/:id')

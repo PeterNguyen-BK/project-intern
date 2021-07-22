@@ -3,8 +3,9 @@ import { Request, Response } from "express";
 // import { IUser } from "../models/user.model";
 import { Schema, model } from "mongoose";
 import User, { IUser } from "../../../common/entity/user.entity";
-import { createIUser, updateIUser, deleteIUser } from "../models/user.model";
+import { createIUser, updateIUser, deleteIUser, signupIUser } from "../models/user.model";
 import { serializeGetUser } from "../serializers/user.serializer";
+
 
 export class UserController {
     public userService: UserService = new UserService(User);
@@ -53,8 +54,7 @@ export class UserController {
                 gender: req.body.gender,
                 location: req.body.location,
                 username: req.body.username,
-                password: req.body.password,
-                password_confirm: req.body.password_confirm
+                password: req.body.password
             }
             const result = await this.userService.createUser(userData);
             res.json(result);
@@ -74,8 +74,7 @@ export class UserController {
                 gender: req.body.gender,
                 location: req.body.location,
                 username: req.body.username,
-                password: req.body.password,
-                password_confirm: req.body.password_confirm
+                password: req.body.password
             }
             const result = await this.userService.updateUser(userData, filter);
             res.json(result);
