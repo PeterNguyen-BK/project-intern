@@ -14,8 +14,14 @@ export class UserService extends BaseRepository<IUser> {
         const user = await User.findOne({ username: data.username }).exec();
         if (user) {
             if (user.password == data.password) {
-                const accessToken = jwt.sign(data, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
-                const refreshToken = jwt.sign(data, `${process.env.REFRESH_TOKEN_SECRET}`);
+                const payload = {
+                    name: user.name,
+                    age: user.age,
+                    gender: user.gender,
+                    DOB: user.DOB
+                }
+                const accessToken = jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
+                const refreshToken = jwt.sign(payload, `${process.env.REFRESH_TOKEN_SECRET}`);
                 user.refresh_token = refreshToken;
                 user.save();
                 return {accessToken: accessToken, refreshToken: refreshToken};
@@ -26,12 +32,17 @@ export class UserService extends BaseRepository<IUser> {
     }
 
     async regenerateAccessToken(refreshToken: any): Promise<any> {
-        const isExist = await User.findOne({ refresh_token: refreshToken }).exec();
-        console.log(isExist);
-        if (isExist) {
+        const user = await User.findOne({ refresh_token: refreshToken }).exec();
+        if (user) {
+            const payload = {
+                name: user.name,
+                age: user.age,
+                gender: user.gender,
+                DOB: user.DOB
+            }
             try {
                 const user = await <any>jwt.verify(refreshToken, `${process.env.REFRESH_TOKEN_SECRET}`);
-                const accessToken = jwt.sign({username: user.username, password: user.password}, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
+                const accessToken = jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
                 return {accessToken: accessToken};
             }
             catch(err) {
@@ -127,11 +138,11 @@ export class UserService extends BaseRepository<IUser> {
         
         User.schema.index({name : 'text'});
 
-        const filter_query : object= {$or: [
-            {name: req.query.name},
-            {location: (req.query.location)? req.query.location: undefined},
-           ]
-        };
+        // const filter_query : object= {$or: [
+        //     {name: req.query.name},
+        //     {location: (req.query.location)? req.query.location: undefined},
+        //    ]
+        // };
         const searchString={
             $text: {$search: req.query.name},
             location: (req.query.location)? req.query.location: undefined

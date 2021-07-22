@@ -7,9 +7,27 @@ export abstract class BaseRepository<T> {
         this.entity = entity;
     }
 
-    public async create(data: T | any): Promise<T | object> {
+    public async getAllUsers(): Promise<T | object> {
         try {
-            const newData = new this.entity (data);
+            const users = await this.entity.find().exec();
+            return {data: users};
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    public async getUser(filter: object): Promise<T | object> {
+        try {
+            const user = await this.entity.findOne(filter).exec();
+            return {data: user};
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    public async create(data: any): Promise<T | object> {
+        try {
+            const newData = new this.entity(data);
             await newData.save();
             return {
                 data: newData
@@ -19,7 +37,7 @@ export abstract class BaseRepository<T> {
         }
     }
 
-    public async update(data: T | any, filter: object): Promise <T | object> {
+    public async update(data: any, filter: object): Promise <T | object> {
         try {
             const result = this.entity.updateOne(filter, data);
             return {
@@ -30,12 +48,12 @@ export abstract class BaseRepository<T> {
         }
     }
 
-    public async delete(filter: object): Promise <T | object> {
+    public async delete(filter: object): Promise <any> {
         try {
-            const result = this.entity.deleteOne(filter);
-            return {
-                code : result
-            }
+            const user = await <any>this.entity.findOne(filter).exec();
+            user.isDelete = true;
+            await user.save();
+            return true;
         } catch (error) {
             throw error;
         }
