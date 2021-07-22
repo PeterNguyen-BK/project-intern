@@ -33,7 +33,13 @@ export const searchUserSchema = Joi.object({
    
     name: Joi.string().required(),
     location: Joi.string(),
-    fieldSort: Joi.string().required(),
-    criteriaSort: Joi.string().min(3),
+    fieldSort: Joi.alternatives().try(
+        Joi.string().valid('DOB'),
+        Joi.string().valid('createAt')
+    ).required(),
+    criteriaSort: Joi.alternatives().try(
+        Joi.string().valid('asc'),
+        Joi.string().valid('desc')
+    ),
     page: Joi.number()
 })
