@@ -1,5 +1,5 @@
 import User, { IUser } from "../../../common/entity/user.entity";
-import { Model } from "mongoose";
+import { Model, mongo } from "mongoose";
 import { BaseRepository } from "../../../common/repository/base.repository";
 import * as jwt from "jsonwebtoken";
 
@@ -26,6 +26,28 @@ export class UserService extends BaseRepository<IUser> {
             await newData.save();
             return {
                 data: newData
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateUser(data: any, filter: any): Promise<any> {
+        try {
+            const result = User.updateOne(filter, data);
+            return {
+                code : result
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteUser(filter: any): Promise<any> {
+        try {
+            const result = User.deleteOne(filter);
+            return {
+                code : result
             }
         } catch (error) {
             throw error;

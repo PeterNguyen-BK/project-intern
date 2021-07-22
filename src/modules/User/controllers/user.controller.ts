@@ -68,7 +68,7 @@ export class UserController {
                 password: req.body.password,
                 password_confirm: req.body.password_confirm
             }
-            const result = await this.userService.update(userData, filter);
+            const result = await this.userService.updateUser(userData, filter);
             res.json(result);
         } catch (error) {
             throw error;
@@ -80,7 +80,7 @@ export class UserController {
             let userData = {
                 id: req.body.id
             }
-            const result = await this.userService.delete(userData);
+            const result = await this.userService.deleteUser(userData);
             res.json(result);
         } catch (error) {
             
