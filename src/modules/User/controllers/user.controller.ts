@@ -11,8 +11,17 @@ export class UserController {
     
     public login = async (req: Request, res: Response) => {
         const username = req.body.username;
-        const token = this.userService.createToken({name: username});
-        res.json(token);
+        const password = req.body.password;
+        const token = await this.userService.createToken({username: username, password: password});
+        if (token) res.status(200).json(token);
+        else res.status(401).json({message: "Auth failed"});
+    }
+
+    public refresh = async (req: Request, res: Response) => {
+        const refreshToken = req.body.refreshToken;
+        const accessToken = await this.userService.regenerateAccessToken(refreshToken);
+        if (accessToken) res.status(200).json(accessToken);
+        else res.sendStatus(403);
     }
 
     public getAllUsers = async (req: Request, res: Response) => {

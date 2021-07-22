@@ -9,10 +9,34 @@ export class UserService extends BaseRepository<IUser> {
         super(userRepository);
     }
 
-    async createToken (obj: any): Promise<any> {
-        const accessToken = jwt.sign(obj, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
-        const refreshToken = jwt.sign(obj, `${process.env.REFRESH_TOKEN_SECRET}`);
-        return {accessToken: accessToken, refreshToken: refreshToken};
+    async createToken (data: any): Promise<any> {
+        const user = await User.findOne({ username: data.username }).exec();
+        if (user) {
+            if (user.password == data.password) {
+                const accessToken = jwt.sign(data, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
+                const refreshToken = jwt.sign(data, `${process.env.REFRESH_TOKEN_SECRET}`);
+                user.refresh_token = refreshToken;
+                user.save();
+                return {accessToken: accessToken, refreshToken: refreshToken};
+            }
+            else return null;
+        }
+        
+    }
+
+    async regenerateAccessToken(refreshToken: any): Promise<any> {
+        const isExist = await User.findOne({ refresh_token: refreshToken }).exec();
+        console.log(isExist);
+        if (isExist) {
+            try {
+                const user = await <any>jwt.verify(refreshToken, `${process.env.REFRESH_TOKEN_SECRET}`);
+                const accessToken = jwt.sign({username: user.username, password: user.password}, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
+                return {accessToken: accessToken};
+            }
+            catch(err) {
+                throw err;
+            }
+        } else return null;
     }
 
     async getUsers(): Promise<any> {

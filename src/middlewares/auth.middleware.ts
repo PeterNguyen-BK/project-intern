@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import * as jwt from "jsonwebtoken";
 
 export function authenticateToken(req: Request, res: Response, next: NextFunction) {
-    const authHeader:string = <string>req.headers["auth"];
+    const authHeader:string = <string>req.headers["authorization"];
     const token:string = authHeader && authHeader.split(" ")[1];
 
     try {
