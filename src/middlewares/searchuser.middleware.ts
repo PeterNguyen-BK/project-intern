@@ -8,7 +8,7 @@ export function ValidateQuery(schema: ObjectSchema){
         try {
             const { error, value } = schema.validate(query);
             if (error) throw error;
-            next();
+            else next();
         } catch (error) {
             throw error;
         }

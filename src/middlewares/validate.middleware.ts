@@ -3,10 +3,11 @@ import { ObjectSchema } from 'joi';
 
 export function commonValidateBody(schema: ObjectSchema){
     return (req: Request, res: Response, next: NextFunction) => {
-        const value = req["body"];
+        const data = req.body;
         try {
-            const result = schema.validate(value);
-            return result;
+            const { error, value } = schema.validate(data);
+            if (error) res.sendStatus(400);
+            else next();
         } catch (error) {
             throw error;
         }

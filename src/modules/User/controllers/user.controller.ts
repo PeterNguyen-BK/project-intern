@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 // import { IUser } from "../models/user.model";
 import { Schema, model } from "mongoose";
 import User, { IUser } from "../../../common/entity/user.entity";
-import { createIUser, updateIUser, deleteIUser, signupIUser } from "../models/user.model";
+import { createIUser, updateIUser, deleteIUser } from "../models/user.model";
 import { serializeGetUser } from "../serializers/user.serializer";
 
 
@@ -47,15 +47,7 @@ export class UserController {
 
     public createUser = async (req: Request, res: Response) => {
         try {
-            let userData: createIUser = {
-                name: req.body.name,
-                age: req.body.age,
-                DOB: req.body.DOB,
-                gender: req.body.gender,
-                location: req.body.location,
-                username: req.body.username,
-                password: req.body.password
-            }
+            let userData: createIUser = req.body;
             const result = await this.userService.createUser(userData);
             res.json(result);
         }
@@ -66,16 +58,8 @@ export class UserController {
 
     public updateUser = async (req: Request, res: Response) => {
         try {
-            let filter = req.body.id;
-            let userData = {
-                name: req.body.name,
-                age: req.body.age,
-                DOB: req.body.DOB,
-                gender: req.body.gender,
-                location: req.body.location,
-                username: req.body.username,
-                password: req.body.password
-            }
+            let filter: deleteIUser = {idUser: req.params.id};
+            let userData: updateIUser = req.body;
             const result = await this.userService.updateUser(userData, filter);
             res.json(result);
         } catch (error) {
@@ -85,13 +69,13 @@ export class UserController {
 
     public deleteUser = async (req: Request, res: Response) => {
         try {
-            let userData = {
-                id: req.body.id
+            let userData: deleteIUser = {
+                idUser: req.params.id
             }
             const result = await this.userService.deleteUser(userData);
             res.json(result);
         } catch (error) {
-            
+            throw error;
         }
     }
 }

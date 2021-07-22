@@ -14,17 +14,12 @@ export interface updateIUser {
     name: string,
     gender: string,
     age: number,
-    DOB: Date,
+    DOB: string,
     username: string,
     password: string,
     location: string
 }
 
 export interface deleteIUser {
-    id: string
-}
-
-export interface signupIUser {
-    username: String,
-    password: String
+    idUser: string
 }
