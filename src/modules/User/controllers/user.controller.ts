@@ -66,17 +66,8 @@ export class UserController {
 
     public updateUser = async (req: Request, res: Response) => {
         try {
-            let filter = req.body.id;
-            let userData = {
-                name: req.body.name,
-                age: req.body.age,
-                DOB: req.body.DOB,
-                gender: req.body.gender,
-                location: req.body.location,
-                username: req.body.username,
-                password: req.body.password,
-                password_confirm: req.body.password_confirm
-            }
+            let filter = {idUser : req.params.id};
+            let userData = req.body;
             const result = await this.userService.updateUser(userData, filter);
             res.json(result);
         } catch (error) {
@@ -87,12 +78,12 @@ export class UserController {
     public deleteUser = async (req: Request, res: Response) => {
         try {
             let userData = {
-                id: req.body.id
+                idUser: req.params.id
             }
             const result = await this.userService.deleteUser(userData);
             res.json(result);
         } catch (error) {
-            
+            throw error;
         }
     }
 }

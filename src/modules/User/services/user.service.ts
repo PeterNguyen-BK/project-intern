@@ -81,13 +81,18 @@ export class UserService extends BaseRepository<IUser> {
         }
     }
 
-
-
     async updateUser(data: any, filter: any): Promise<any> {
         try {
-            const result = User.updateOne(filter, data);
-            return {
-                code : result
+            const result = await User.updateOne(filter, data);
+            if (result.n != 0){
+                return {
+                    code : 200
+                }
+            }
+            else {
+                return {
+                    code: 400
+                }
             }
         } catch (error) {
             throw error;
@@ -96,9 +101,16 @@ export class UserService extends BaseRepository<IUser> {
 
     async deleteUser(filter: any): Promise<any> {
         try {
-            const result = User.deleteOne(filter);
-            return {
-                code : result
+            const result = await User.deleteOne(filter);
+            if (result.n != 0){
+                return {
+                    code : 200
+                }
+            }
+            else {
+                return {
+                    code : 400
+                }
             }
         } catch (error) {
             throw error;
