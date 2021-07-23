@@ -56,39 +56,14 @@ export class UserService extends BaseRepository<IUser> {
         return {data: data}
     }
 
-    async createID() {
-        async function getRandomInt(max: number) {
-            return Math.floor(Math.random() * max);
-        }
-        async function checkID(id: number){
-            await User.findOne({idUser: id}, (err: any, doc: any) => {
-                if (err) throw err;
-                if (doc != null) {
-                    return 1;
-                }
-            })
-            return 0;
-        }
-        let id = await getRandomInt(1000000);
-        let result = await checkID(id);
-        while (result) {
-            id = await getRandomInt(1000000);
-            console.log(id);
-            result = await checkID(id);
-        }
-        return id;
-    }
-
     async createUser(data: any): Promise<any> {
         try {
             const user = await User.findOne({ username: data.username }).exec();
             if (user) throw new Error("Username has been already existed");
-            const saltRounds = 10;
-            const encryptPassword = await bcrypt.hash(data.password, saltRounds);
-            data.password = encryptPassword;
+            // const saltRounds = 10;
+            // const encryptPassword = await bcrypt.hash(data.password, saltRounds);
+            // data.password = encryptPassword;
             const newData = new User(data);
-            const idUser = await this.createID();
-            newData.idUser = idUser;
             await newData.save();
             return {
                 data: newData
@@ -116,23 +91,23 @@ export class UserService extends BaseRepository<IUser> {
         }
     }
 
-    async deleteUser(filter: any): Promise<any> {
-        try {
-            const result = await User.deleteOne(filter);
-            if (result.n != 0){
-                return {
-                    code : 200
-                }
-            }
-            else {
-                return {
-                    code : 400
-                }
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
+    // async deleteUser(filter: any): Promise<any> {
+    //     try {
+    //         const result = await User.deleteOne(filter);
+    //         if (result.n != 0){
+    //             return {
+    //                 code : 200
+    //             }
+    //         }
+    //         else {
+    //             return {
+    //                 code : 400
+    //             }
+    //         }
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
 
     async searchUser(req: any): Promise<any> {
         

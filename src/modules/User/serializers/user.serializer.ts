@@ -1,15 +1,21 @@
 import {createIUser} from "../models/user.model";
 
-export interface IUserGet {
-    name: String,
-    username: String,
-    password: String
+export interface IUserCreateResponse {
+    name: string,
+    age: number,
+    gender: string,
+    DOB: string,
+    location: string,
+    username: string,
 }
 
-export function serializeGetUser(model: createIUser): IUserGet {
+export function serializeGetUser(model: createIUser): IUserCreateResponse {
     return {
         name: model.name,
-        username: model.username,
-        password: model.password
+        age: model.age,
+        gender: model.gender,
+        DOB: model.DOB,
+        location: model.location,
+        username: model.username
     };
 }

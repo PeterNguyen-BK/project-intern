@@ -1,25 +1,24 @@
 import { Schema, model, Document } from "mongoose";
+import bcrypt from "bcrypt";
 
 export interface IUser extends Document {
     id: Schema.Types.ObjectId,
-    idUser: Number,
-    name: String,
-    age: Number,
-    DOB: String,
-    gender: String,
-    location: String,
-    username: String,
-    password: String,
+    name: string,
+    age: number,
+    DOB: string,
+    gender: string,
+    location: string,
+    username: string,
+    password: string,
     created_at: Date,
     updated_at: Date,
-    refresh_token: String
-    isDelete: Boolean
+    refresh_token: string
+    isDelete: boolean
 
 }
 
 const userSchema = new Schema<IUser>({
     id: {type: Schema.Types.ObjectId, require: true},
-    idUser: {type: Number, required: true},
     name: { type: String, required: true },
     age: { type: Number, required: true },
     DOB: { type: String, required: true },
@@ -34,5 +33,10 @@ const userSchema = new Schema<IUser>({
 },
     { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } 
 });
+
+userSchema.pre("save", async function() {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+})
 
 export default model<IUser>('User', userSchema);

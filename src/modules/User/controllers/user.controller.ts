@@ -1,6 +1,5 @@
 import { UserService } from "../services/user.service";
 import { Request, Response } from "express";
-// import { IUser } from "../models/user.model";
 import { Schema, model } from "mongoose";
 import User, { IUser } from "../../../common/entity/user.entity";
 import { createIUser, updateIUser, deleteIUser } from "../models/user.model";
@@ -58,7 +57,7 @@ export class UserController {
 
     public updateUser = async (req: Request, res: Response) => {
         try {
-            let filter: deleteIUser = {idUser: req.params.id};
+            let filter: deleteIUser = {id: req.params.id};
             let userData: updateIUser = req.body;
             const result = await this.userService.updateUser(userData, filter);
             res.json(result);
@@ -70,9 +69,9 @@ export class UserController {
     public deleteUser = async (req: Request, res: Response) => {
         try {
             let userData: deleteIUser = {
-                idUser: req.params.id
+                id: req.params.id
             }
-            const result = await this.userService.deleteUser(userData);
+            const result = await this.userService.delete(userData);
             res.json(result);
         } catch (error) {
             throw error;
