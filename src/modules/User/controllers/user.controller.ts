@@ -57,7 +57,7 @@ export class UserController {
 
     public updateUser = async (req: Request, res: Response) => {
         try {
-            let filter: deleteIUser = {id: req.params.id};
+            let filter: deleteIUser = {_id: req.params.id};
             let userData: updateIUser = req.body;
             const result = await this.userService.updateUser(userData, filter);
             res.json(result);
@@ -69,7 +69,7 @@ export class UserController {
     public deleteUser = async (req: Request, res: Response) => {
         try {
             let userData: deleteIUser = {
-                id: req.params.id
+                _id: req.params.id
             }
             const result = await this.userService.delete(userData);
             res.json(result);

@@ -7,7 +7,7 @@ export const createUserSchema = Joi.object({
     gender: Joi.string().required(),
     username: Joi.string().required(),
     password: Joi.string().required(),
-    password_confirm: Joi.string().required().valid(Joi.ref('password')),
+    password_confirm: Joi.string().equal(Joi.ref('password')).required(),
     location: Joi.string(),
 })
 

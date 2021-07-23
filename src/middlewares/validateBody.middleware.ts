@@ -6,7 +6,7 @@ export function commonValidateBody(schema: ObjectSchema){
         const data = req.body;
         try {
             const { error, value } = schema.validate(data);
-            if (error) res.sendStatus(400);
+            if (error) res.status(400).json({message: error.message});
             else next();
         } catch (error) {
             throw error;

@@ -1,8 +1,8 @@
 import express, { Application, Router, Request, Response } from "express";
 import { UserController } from "../controllers/user.controller";
 import { authenticateToken } from "../../../middlewares/auth.middleware";
-import { commonValidateBody } from "../../../middlewares/validate.middleware";
-import { ValidateQuery } from "../../../middlewares/searchuser.middleware";
+import { commonValidateBody } from "../../../middlewares/validateBody.middleware";
+import { commonValidateQuery } from "../../../middlewares/validateQuery.middleware";
 import { searchUserSchema, createUserSchema, updateUserSchema } from "../DTO/user.dto";
 
 
@@ -15,7 +15,7 @@ export class UserRoute {
             .post(commonValidateBody(createUserSchema), this.userController.createUser);
 
         app.route('/v1/users/search')
-            .get(ValidateQuery(searchUserSchema),this.userController.searchUser);
+            .get(commonValidateQuery(searchUserSchema),this.userController.searchUser);
         
         app.route('/v1/users/:id')
             .put(commonValidateBody(updateUserSchema), this.userController.updateUser)

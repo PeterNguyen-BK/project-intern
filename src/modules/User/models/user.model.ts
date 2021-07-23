@@ -5,6 +5,7 @@ export interface createIUser {
     DOB: string,
     username: string,
     password: string,
+    password_confirm: string,
     location: string
 }
 
@@ -19,5 +20,5 @@ export interface updateIUser {
 }
 
 export interface deleteIUser {
-    id: string
+    _id: string
 }

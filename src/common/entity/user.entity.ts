@@ -2,7 +2,6 @@ import { Schema, model, Document } from "mongoose";
 import bcrypt from "bcrypt";
 
 export interface IUser extends Document {
-    id: Schema.Types.ObjectId,
     name: string,
     age: number,
     DOB: string,
@@ -18,7 +17,6 @@ export interface IUser extends Document {
 }
 
 const userSchema = new Schema<IUser>({
-    id: {type: Schema.Types.ObjectId, require: true},
     name: { type: String, required: true },
     age: { type: Number, required: true },
     DOB: { type: String, required: true },
@@ -37,6 +35,6 @@ const userSchema = new Schema<IUser>({
 userSchema.pre("save", async function() {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
-})
+});
 
 export default model<IUser>('User', userSchema);
