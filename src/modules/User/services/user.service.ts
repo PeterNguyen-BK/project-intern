@@ -13,21 +13,25 @@ export class UserService extends BaseRepository<IUser> {
     async createToken (data: any): Promise<any> {
         const user = await User.findOne({ username: data.username }).exec();
         if (user) {
-            const match = await bcrypt.compare(data.password, user.password);
-            if (match) {
-                const payload = {
-                    name: user.name,
-                    age: user.age,
-                    gender: user.gender,
-                    DOB: user.DOB
+            try {
+                const match = await bcrypt.compare(data.password, user.password);
+                if (match) {
+                    const payload = {
+                        name: user.name,
+                        age: user.age,
+                        gender: user.gender,
+                        DOB: user.DOB
+                    }
+                    const accessToken = jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
+                    const refreshToken = jwt.sign(payload, `${process.env.REFRESH_TOKEN_SECRET}`);
+                    await User.updateOne({ username: data.username }, { refresh_token: refreshToken });
+                    return {accessToken: accessToken, refreshToken: refreshToken};
                 }
-                const accessToken = jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, {expiresIn: '30s'});
-                const refreshToken = jwt.sign(payload, `${process.env.REFRESH_TOKEN_SECRET}`);
-                user.refresh_token = refreshToken;
-                user.save();
-                return {accessToken: accessToken, refreshToken: refreshToken};
+                else return null;
+            } catch(err) {
+                throw err;
             }
-            else return null;
+            
         }
         
     }
