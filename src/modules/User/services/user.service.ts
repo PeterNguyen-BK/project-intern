@@ -13,7 +13,8 @@ export class UserService extends BaseRepository<IUser> {
     async createToken (data: any): Promise<any> {
         const user = await User.findOne({ username: data.username }).exec();
         if (user) {
-            if (user.password == data.password) {
+            const match = await bcrypt.compare(data.password, user.password);
+            if (match) {
                 const payload = {
                     name: user.name,
                     age: user.age,
