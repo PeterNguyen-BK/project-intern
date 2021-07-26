@@ -37,22 +37,29 @@ export abstract class BaseRepository<T> {
         }
     }
 
-    public async update(data: any, filter: object): Promise <T | object> {
+    public async update(data: any, filter: any): Promise <T | object> {
         try {
-            const result = this.entity.updateOne(filter, data);
-            return {
-                code : result
+            const result = await <any>this.entity.updateOne(filter, data);
+            if (result.n != 0){
+                return {
+                    code : 200
+                }
+            }
+            else {
+                return {
+                    code: 400
+                }
             }
         } catch (error) {
             throw error;
         }
     }
 
-    public async delete(filter: object): Promise <any> {
+    public async delete(filter: any): Promise <any> {
         try {
-            const user = await <any>this.entity.findOne(filter).exec();
-            user.isDelete = true;
-            await user.save();
+            const result = await <any>this.entity.findOne(filter).exec();
+            result.isDelete = true;
+            await result.save();
             return true;
         } catch (error) {
             throw error;

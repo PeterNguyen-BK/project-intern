@@ -59,7 +59,7 @@ export class UserController {
         try {
             let filter: deleteIUser = {_id: req.params.id};
             let userData: updateIUser = req.body;
-            const result = await this.userService.updateUser(userData, filter);
+            const result = await this.userService.update(userData, filter);
             res.json(result);
         } catch (error) {
             throw error;
