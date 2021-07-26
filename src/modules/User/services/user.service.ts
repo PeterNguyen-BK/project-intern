@@ -63,6 +63,7 @@ export class UserService extends BaseRepository<IUser> {
             // const saltRounds = 10;
             // const encryptPassword = await bcrypt.hash(data.password, saltRounds);
             // data.password = encryptPassword;
+            data.isDelete = false;
             const newData = new User(data);
             await newData.save();
             return {
