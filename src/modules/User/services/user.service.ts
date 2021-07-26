@@ -60,31 +60,10 @@ export class UserService extends BaseRepository<IUser> {
         try {
             const user = await User.findOne({ username: data.username }).exec();
             if (user) throw new Error("Username has been already existed");
-            // const saltRounds = 10;
-            // const encryptPassword = await bcrypt.hash(data.password, saltRounds);
-            // data.password = encryptPassword;
             const newData = new User(data);
             await newData.save();
             return {
                 data: newData
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async updateUser(data: any, filter: any): Promise<any> {
-        try {
-            const result = await User.updateOne(filter, data);
-            if (result.n != 0){
-                return {
-                    code : 200
-                }
-            }
-            else {
-                return {
-                    code: 400
-                }
             }
         } catch (error) {
             throw error;
